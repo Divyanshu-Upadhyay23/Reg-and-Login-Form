@@ -1,0 +1,206 @@
+<html>
+<head>
+<style>
+body
+{
+color:white;
+background-image:url('2.jpg');
+background-size:cover;
+}
+.a
+{
+width:350px;
+height:400px;
+top:100px;
+left:250px;
+position:absolute;
+opacity:0.6;
+background-color:black;
+}
+.b
+{
+width:200px;
+height:100px;
+top:150px;
+left:300px;
+position:absolute;
+}
+.b1
+{
+width:120px;
+height:30px;
+top:250px;
+left:50px;
+position:absolute;
+background-color:green;
+border-radius:20px;
+border-style:none;
+}
+.b2
+{
+border:none;
+border-bottom-style:solid;
+border-bottom-color:green;
+border-bottom-width:1px;
+width:250px;
+background:transparent;
+color: white;
+}
+::placeholder
+{
+color:white;
+}
+.c
+{
+width:350px;
+height:400px;
+top:100px;
+left:700px;
+position:absolute;
+opacity:0.6;
+background-color:black;
+}
+.d
+{
+width:200px;
+height:100px;
+top:180px;
+left:750px;
+position:absolute;
+}
+.d1
+{
+width:120px;
+height:30px;
+top:180px;
+left:60px;
+position:absolute;
+background-color:green;
+border-radius:20px;
+border-style:none;
+}
+.d2
+{
+background:transparent;
+border:none;
+border-bottom-style:solid;
+border-bottom-color:green;
+border-bottom-width:1px;
+width:250px;
+color:white;
+}
+::placeholder
+{
+color:white;
+}
+</style>
+</head>
+<body>
+<div class="a"></div>
+<div class="b">
+  <table width="80%">
+    <tr><td>SIGN UP</td></tr>
+  </table>
+  <p><input type="text" class="b2" id="signup-username" placeholder="Username"></p>
+  <p><input type="text" class="b2" id="signup-email" placeholder="Email ID"></p>
+  <p><input type="password" class="b2" id="signup-password" placeholder="Password"></p>
+  <p><input type="password" class="b2" id="signup-confirm" placeholder="Confirm Password"></p>
+  <p><input type="checkbox" id="signup-terms">I Agree with terms & conditions</p>
+  <p><input type="submit" value="Register" class="b1" onclick="storeSignup()"></p> 
+</div>
+
+<div class="c"></div>
+<div class="d">
+  <table width="80%">
+    <tr><td>LOG IN</td></tr>
+  </table>
+  <p><input type="text" class="d2" id="login-email" placeholder="Email ID"></p>
+  <p><input type="password" class="d2" id="login-password" placeholder="Password"></p>
+  <p><input type="checkbox" id="login-terms">I Agree with terms & conditions</p>
+  <p><input type="submit" value="Login" class="d1" onclick="storeLogin()"></p> 
+</div>
+
+<script>
+function clearSignupForm() {
+  document.getElementById('signup-username').value = "";
+  document.getElementById('signup-email').value = "";
+  document.getElementById('signup-password').value = "";
+  document.getElementById('signup-confirm').value = "";
+  document.getElementById('signup-terms').checked = false;
+}
+
+function clearLoginForm() {
+  document.getElementById('login-email').value = "";
+  document.getElementById('login-password').value = "";
+  document.getElementById('login-terms').checked = false;
+}
+
+function validateEmail(email) {
+  // Simple regex for basic email validation
+  var re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return re.test(email);
+}
+
+function storeSignup() {
+  // Get values from sign-up form
+  var username = document.getElementById('signup-username').value;
+  var email = document.getElementById('signup-email').value;
+  var password = document.getElementById('signup-password').value;
+  var confirm = document.getElementById('signup-confirm').value;
+  var terms = document.getElementById('signup-terms').checked;
+
+  if (!terms) {
+    alert('You must agree to the terms & conditions!');
+    return;
+  }
+  if (!username || !email || !password || !confirm) {
+    alert('Please fill all fields');
+    return;
+  }
+  if (!validateEmail(email)) {
+    alert('Please enter a valid email address!');
+    return;
+  }
+  if (password !== confirm) {
+    alert('Passwords do not match!');
+    return;
+  }
+
+  // Store to localStorage (for demonstration)
+  let userData = { username, email, password };
+  localStorage.setItem('userData', JSON.stringify(userData));
+  alert('Sign up data stored!');
+  clearSignupForm(); // clear the sign up form fields
+}
+
+function storeLogin() {
+  // Get values from log-in form
+  var email = document.getElementById('login-email').value;
+  var password = document.getElementById('login-password').value;
+  var terms = document.getElementById('login-terms').checked;
+
+  if (!terms) {
+    alert('You must agree to the terms & conditions!');
+    return;
+  }
+  if (!email || !password) {
+    alert('Please fill all fields');
+    return;
+  }
+  if (!validateEmail(email)) {
+    alert('Please enter a valid email address!');
+    return;
+  }
+
+  // For demonstration, compare with stored sign-up data
+  let userData = JSON.parse(localStorage.getItem('userData') || '{}');
+  if (email === userData.email && password === userData.password) {
+    alert('Login successful!');
+  } else {
+    alert('Invalid login. Please check your credentials.');
+  }
+  clearLoginForm(); // clear the login form fields
+}
+</script>
+</body>
+</html>
